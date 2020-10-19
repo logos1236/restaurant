@@ -1,22 +1,36 @@
 package ru.armishev.controllers;
 
+import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class Error {
-    @RequestMapping(value = "errors", method = RequestMethod.GET)
-    public ModelAndView renderErrorPage(HttpServletRequest httpRequest) {
+public class Error implements ErrorController {
+    @RequestMapping("/error")
+    public String renderErrorPage(HttpServletRequest httpRequest, Model model) {
 
-        ModelAndView errorPage = new ModelAndView("errorPage");
         String errorMsg = "";
-        int httpErrorCode = getErrorCode(httpRequest);
+        Object status = httpRequest.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
-        switch (httpErrorCode) {
+        /*if (status != null) {
+            Integer statusCode = Integer.valueOf(status.toString());
+
+            if(statusCode == HttpStatus.NOT_FOUND.value()) {
+                return "error-404";
+            }
+            else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                return "error-500";
+            }
+        }*/
+
+        /*switch (httpErrorCode) {
             case 400: {
                 errorMsg = "Http Error Code: 400. Bad Request";
                 break;
@@ -34,12 +48,13 @@ public class Error {
                 break;
             }
         }
-        errorPage.addObject("errorMsg", errorMsg);
-        return errorPage;
+        model.addAttribute("errorMsg", errorMsg);*/
+
+        return "/service/error.html";
     }
 
-    private int getErrorCode(HttpServletRequest httpRequest) {
-        return (Integer) httpRequest
-                .getAttribute("javax.servlet.error.status_code");
+    @Override
+    public String getErrorPath() {
+        return null;
     }
 }
