@@ -7,9 +7,7 @@ import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import ru.armishev.dao.WaiterDAO;
 import ru.armishev.dao.WaiterSevice;
 
@@ -22,9 +20,17 @@ public class Stuff {
 
     @GetMapping("/")
     @ResponseBody
-    public String index(Model model) {
+    public String index() {
         Gson g = new GsonBuilder().addSerializationExclusionStrategy(WaiterDAO.public_strategy).create();
 
         return g.toJson(waiterDAO.getList());
+    }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public String getById(@PathVariable Integer id) {
+        Gson g = new GsonBuilder().addSerializationExclusionStrategy(WaiterDAO.public_strategy).create();
+
+        return g.toJson(waiterDAO.getById(id).get());
     }
 }

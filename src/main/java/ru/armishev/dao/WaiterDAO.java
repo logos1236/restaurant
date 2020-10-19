@@ -2,6 +2,7 @@ package ru.armishev.dao;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -34,5 +35,10 @@ public class WaiterDAO implements WaiterSevice {
     @Override
     public List<Waiter> getList() {
         return waiterRepository.findAll();
+    }
+
+    @Override
+    public Optional<Waiter> getById(Integer integer) {
+        return waiterRepository.findById(integer);
     }
 }
