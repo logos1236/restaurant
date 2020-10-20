@@ -17,7 +17,18 @@ abstract public class Stuff implements IStuff {
     private int id;
 
     @Column(name = "name")
-    String name;
+    private String name;
+
+    @Column(name = "type")
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public int getId() {
         return id;

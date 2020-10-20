@@ -6,13 +6,13 @@ import java.util.Optional;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.armishev.entity.stuff.Waiter;
 
 @Service
-public class WaiterDAO implements WaiterSevice {
+public class WaiterDAO implements EntityService<Waiter> {
     public static ExclusionStrategy public_strategy = new ExclusionStrategy() {
         private final String[] allow_name_list = {"id", "name"};
 
@@ -40,5 +40,24 @@ public class WaiterDAO implements WaiterSevice {
     @Override
     public Optional<Waiter> getById(Integer integer) {
         return waiterRepository.findById(integer);
+    }
+
+    @Override
+    @Transactional
+    public int add(Waiter waiter) {
+        waiterRepository.add(waiter);
+        return waiterRepository.getMaxId();
+    }
+
+    @Override
+    public void delete(Integer id) {
+        waiterRepository.deleteById(id);
+    }
+
+    @Override
+    public Waiter update(Waiter waiter) {
+        waiterRepository.update(waiter);
+
+        return waiter;
     }
 }
