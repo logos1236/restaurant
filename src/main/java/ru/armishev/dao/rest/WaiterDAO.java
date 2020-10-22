@@ -1,4 +1,8 @@
-package ru.armishev.dao;
+package ru.armishev.dao.rest;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -6,16 +10,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.armishev.entity.product.Product;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
+import ru.armishev.dao.EntityService;
+import ru.armishev.entity.stuff.Waiter;
 
 @Service
-public class ProductDAO implements EntityService<Product> {
+public class WaiterDAO implements EntityService<Waiter> {
     private static ExclusionStrategy public_strategy = new ExclusionStrategy() {
-        private final String[] allow_name_list = {"id", "name", "cost", "description", "category", "execute_time"};
+        private final String[] allow_name_list = {"id", "name"};
 
         @Override
         public boolean shouldSkipField(FieldAttributes fieldAttributes) {
@@ -36,33 +38,34 @@ public class ProductDAO implements EntityService<Product> {
     }
 
     @Autowired
-    private ProductRepository repository;
+    private WaiterRepository repository;
 
     @Override
-    public List<Product> getList() {
+    public List<Waiter> getList() {
         return repository.findAll();
     }
 
     @Override
-    public Optional<Product> getById(Integer integer) {
+    public Optional<Waiter> getById(Integer integer) {
         return repository.findById(integer);
     }
 
     @Override
-    public int add(Product product) {
-        repository.add(product);
+    @Transactional
+    public int add(Waiter waiter) {
+        repository.add(waiter);
         return repository.getMaxId();
-    }
-
-    @Override
-    public Product update(Product product) {
-        repository.update(product);
-
-        return product;
     }
 
     @Override
     public void delete(Integer id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public Waiter update(Waiter waiter) {
+        repository.update(waiter);
+
+        return waiter;
     }
 }
