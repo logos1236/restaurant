@@ -9,8 +9,6 @@ public interface IProduct {
 
     ProductCategory geCategory();
 
-    List<Ingredient> getSupplies();
-
     String getDescription();
 
     long getExecuteTime();

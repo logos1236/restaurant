@@ -1,5 +1,7 @@
 package ru.armishev.dao;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import ru.armishev.entity.stuff.Waiter;
 
 import java.util.List;
@@ -10,9 +12,11 @@ public interface EntityService<T> {
 
     Optional<T> getById(Integer integer);
 
-    int add(T waiter);
+    int add(T element);
 
-    T update(T waiter);
+    T update(T element);
 
-    void delete(Integer integer);
+    void delete(Integer id);
+
+    Gson getPublicGson();
 }

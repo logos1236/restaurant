@@ -10,29 +10,28 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.armishev.dao.WaiterDAO;
 import ru.armishev.entity.stuff.Waiter;
 
-import javax.persistence.Entity;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/stuff", produces = "application/json; charset=utf-8")
-public class Stuff {
+public class StuffController {
     @Autowired
-    private WaiterDAO waiterDAO;
+    private WaiterDAO dao;
 
     @GetMapping("/")
     @ResponseBody
     public String index() {
-        Gson g = new GsonBuilder().addSerializationExclusionStrategy(WaiterDAO.public_strategy).create();
+        Gson g = dao.getPublicGson();
 
-        return g.toJson(waiterDAO.getList());
+        return g.toJson(dao.getList());
     }
 
     @GetMapping("/{id}")
     @ResponseBody
     public String getById(@PathVariable Integer id) {
-        Gson g = new GsonBuilder().addSerializationExclusionStrategy(WaiterDAO.public_strategy).create();
-        Optional<Waiter> result = waiterDAO.getById(id);
+        Gson g = dao.getPublicGson();
+        Optional<Waiter> result = dao.getById(id);
 
         if (result.isPresent()) {
             return g.toJson(result.get());
@@ -43,12 +42,12 @@ public class Stuff {
 
     @GetMapping("/add")
     public String add(HttpServletRequest request) {
-        Gson g = new GsonBuilder().addSerializationExclusionStrategy(WaiterDAO.public_strategy).create();
+        Gson g = dao.getPublicGson();
 
         Waiter new_waiter = new Waiter();
         new_waiter.setName("Tratata");
 
-        int waiter_id = waiterDAO.add(new_waiter);
+        int waiter_id = dao.add(new_waiter);
 
         return "redirect:/stuff/"+waiter_id;
     }
@@ -56,7 +55,7 @@ public class Stuff {
     @GetMapping("/{id}/delete")
     @ResponseBody
     public String add(@PathVariable Integer id) {
-        waiterDAO.delete(id);
+        dao.delete(id);
 
         return id+"";
     }
@@ -64,13 +63,13 @@ public class Stuff {
     @GetMapping("/{id}/update")
     @ResponseBody
     public String update(@PathVariable Integer id) {
-        Gson g = new GsonBuilder().addSerializationExclusionStrategy(WaiterDAO.public_strategy).create();
+        Gson g = dao.getPublicGson();
 
-        Optional<Waiter> waiter = waiterDAO.getById(id);
+        Optional<Waiter> waiter = dao.getById(id);
 
         if (waiter.isPresent()) {
             waiter.get().setName("1111111");
-            waiterDAO.update(waiter.get());
+            dao.update(waiter.get());
 
             return g.toJson(waiter.get());
         } else {

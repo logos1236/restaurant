@@ -22,6 +22,12 @@ abstract public class Stuff implements IStuff {
     @Column(name = "type")
     private int type;
 
+    @Transient
+    long salary;
+
+    @Transient
+    boolean is_currently_busy;
+
     public int getType() {
         return type;
     }
@@ -58,10 +64,4 @@ abstract public class Stuff implements IStuff {
     public int hashCode() {
         return Objects.hash(id);
     }
-
-    @Transient
-    long salary;
-
-    @Transient
-    boolean is_currently_busy;
 }
