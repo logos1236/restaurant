@@ -5,6 +5,7 @@ import ru.armishev.entity.product.Product;
 import ru.armishev.entity.table.Table;
 import ru.armishev.entity.stuff.Waiter;
 
+import javax.persistence.Entity;
 import java.util.*;
 
 public class Order implements IOrderCustomer, IOrderWorker {

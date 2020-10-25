@@ -1,0 +1,34 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="/template/index.html :: header">
+</head>
+
+<script>
+
+</script>
+
+
+<div th:each="elem : ${products}">
+    <div class="service_product_element">
+        <p th:text="${elem.getName()}"></p>
+        <p class="service_product_element">Добавить товар</p>
+
+        <? //=== Форма для связи товара с корзиной ?>
+        <form autocomplete="off" action="/user/product/add/" class="service_product_info_form">
+            <input type="hidden" name="id" th:value="${elem.getId()}" autocomplete="off">
+            <input type="number" min="0" class="service_quantity_text_input" name="quantity" value="0" autocomplete="off">
+        </form>
+
+        <div class="action-buy-count">
+            <div class="counterin">
+                <a href="#" class="counterin-min simple service_product_change_cart" data-method="reduce"></a>
+                <a href="#" class="counterin-plus simple service_product_change_cart" data-method="add"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:insert="/template/index.html :: footer">
+</div>
+</body>
+</html>
