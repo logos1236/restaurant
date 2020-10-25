@@ -3,7 +3,12 @@
 <head th:insert="/template/index.html :: header">
 </head>
 <body>
-Product!
+
+<ul th:each="elem : ${products}">
+    <li>
+        <a th:text="${elem.getName()}" th:href="@{/people/{id}(id=${elem.getId()})}">Product</a>
+    </li>
+</ul>
 
 <div th:insert="/template/index.html :: footer">
 </div>

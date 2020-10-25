@@ -5,6 +5,7 @@ import ru.armishev.entity.ingredient.Ingredient;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "product")
@@ -23,6 +24,14 @@ public class Product implements IProduct {
 
     @Column(name = "description")
     private String description;
+
+    public void setExecute_time(long execute_time) {
+        this.execute_time = execute_time;
+    }
+
+    public long getExecute_time() {
+        return execute_time;
+    }
 
     @Transient
     private ProductCategory category;
@@ -78,6 +87,30 @@ public class Product implements IProduct {
     @Override
     public ProductCategory geCategory() {
         return category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", cost=" + cost +
+                ", description='" + description + '\'' +
+                ", execute_time=" + execute_time +
+                '}';
     }
 
     @Override

@@ -1,11 +1,14 @@
 package ru.armishev.dao.web;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.armishev.dao.EntityService;
 import ru.armishev.entity.product.Product;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,11 +20,12 @@ public class ProductDAOWeb implements EntityService<Product> {
 
     @Override
     public List<Product> getList() {
-        String json = restClient.get(main_url);
+        String jsonArray = restClient.get(main_url);
 
-        System.out.println(json);
+        Type listType = new TypeToken<ArrayList<Product>>(){}.getType();
+        List<Product> result = new Gson().fromJson(jsonArray, listType);
 
-        return null;
+        return result;
     }
 
     @Override
