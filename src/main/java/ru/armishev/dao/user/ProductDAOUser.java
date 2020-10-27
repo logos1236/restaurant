@@ -1,6 +1,8 @@
 package ru.armishev.dao.user;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,9 +11,7 @@ import ru.armishev.dao.RestClient;
 import ru.armishev.entity.product.Product;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductDAOUser implements EntityService<Product> {
@@ -22,6 +22,19 @@ public class ProductDAOUser implements EntityService<Product> {
     @Override
     public List<Product> getList() {
         String jsonArray = restClient.get(main_url);
+
+        Type listType = new TypeToken<ArrayList<Product>>(){}.getType();
+        List<Product> result = new Gson().fromJson(jsonArray, listType);
+
+        return result;
+    }
+
+    @Override
+    public List<Product> getList(List<Integer> id_list) {
+        JsonObject json_product_id =  new JsonObject();
+        json_product_id.addProperty("id", new Gson().toJson(id_list));
+
+        String jsonArray = restClient.get(main_url, json_product_id.toString());
 
         Type listType = new TypeToken<ArrayList<Product>>(){}.getType();
         List<Product> result = new Gson().fromJson(jsonArray, listType);

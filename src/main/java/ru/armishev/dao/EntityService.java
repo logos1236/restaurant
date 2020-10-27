@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface EntityService<T> {
     List<T> getList();
 
+    List<T> getList(List<Integer> id_list);
+
     Optional<T> getById(Integer integer);
 
     int add(T element);

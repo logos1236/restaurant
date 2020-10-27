@@ -45,6 +45,11 @@ public class ProductDAO implements EntityService<Product> {
     }
 
     @Override
+    public List<Product> getList(List<Integer> id_list) {
+        return repository.findList(id_list);
+    }
+
+    @Override
     public Optional<Product> getById(Integer integer) {
         return repository.findById(integer);
     }

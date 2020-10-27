@@ -30,6 +30,11 @@ public class ProductDAOAdmin implements EntityService<Product> {
     }
 
     @Override
+    public List<Product> getList(List<Integer> id_list) {
+        return null;
+    }
+
+    @Override
     public Optional<Product> getById(Integer integer) {
         return Optional.empty();
     }

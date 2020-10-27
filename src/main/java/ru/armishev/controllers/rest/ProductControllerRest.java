@@ -1,16 +1,18 @@
 package ru.armishev.controllers.rest;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.armishev.dao.rest.ProductDAO;
 import ru.armishev.entity.product.Product;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -23,10 +25,40 @@ public class ProductControllerRest {
 
     @GetMapping("/")
     @ResponseBody
-    public String index() {
+    public String index(@RequestParam(name="data", required = false) String data) {
+        List<Integer> id_list = getListIdFromUrl(data);
         Gson g = dao.getPublicGson();
 
-        return g.toJson(dao.getList());
+        List<Product> result = (id_list.isEmpty()) ? dao.getList() : dao.getList(id_list);
+        return g.toJson(result);
+    }
+
+    /*
+    Получаем массив id товаров из переданного в url параметра
+     */
+    private static List<Integer> getListIdFromUrl(String data) {
+        List<Integer> id_list = new ArrayList<>();
+
+        if (data != null) {
+            JsonParser parser = new JsonParser();
+            String decode_data = "";
+
+            try {
+                decode_data = URLDecoder.decode(data, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            JsonArray id_json_array = parser.parse(parser.parse(decode_data).getAsJsonObject().get("id").getAsString()).getAsJsonArray();
+
+            if (id_json_array != null) {
+                for(JsonElement element: id_json_array) {
+                    id_list.add(element.getAsInt());
+                }
+            }
+        }
+
+        return id_list;
     }
 
     @GetMapping("/{id}")

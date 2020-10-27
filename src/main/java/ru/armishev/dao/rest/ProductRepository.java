@@ -16,8 +16,12 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query(value="SELECT * FROM product", nativeQuery = true)
     List<Product> findAll();
 
+    @Query(value="SELECT * FROM product WHERE id IN (:id_list)", nativeQuery = true)
+    List<Product> findList(List<Integer> id_list);
+
     @Query(value="SELECT * FROM #{#entityName} WHERE id = ?1", nativeQuery = true)
     Optional<Product> findById(Integer id);
+
 
     @Modifying
     @Query(value = "INSERT INTO #{#entityName} (name, cost, description, category, execute_time) " +

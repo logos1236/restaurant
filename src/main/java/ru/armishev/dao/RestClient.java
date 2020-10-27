@@ -3,6 +3,7 @@ package ru.armishev.dao;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class RestClient {
@@ -21,6 +22,16 @@ public class RestClient {
     public String get(String uri) {
         HttpEntity<String> requestEntity = new HttpEntity<String>("", headers);
         ResponseEntity<String> responseEntity = rest.exchange(server + uri, HttpMethod.GET, requestEntity, String.class);
+        this.setStatus(responseEntity.getStatusCode());
+        return responseEntity.getBody();
+    }
+
+    public String get(String uri, String json) {
+        UriComponentsBuilder builder_url = UriComponentsBuilder.fromHttpUrl(server + uri)
+                .queryParam("data", json);
+
+        HttpEntity<String> requestEntity = new HttpEntity<String>("", headers);
+        ResponseEntity<String> responseEntity = rest.exchange(builder_url.toUriString(), HttpMethod.GET, requestEntity, String.class);
         this.setStatus(responseEntity.getStatusCode());
         return responseEntity.getBody();
     }

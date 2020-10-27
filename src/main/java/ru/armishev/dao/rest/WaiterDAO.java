@@ -46,6 +46,11 @@ public class WaiterDAO implements EntityService<Waiter> {
     }
 
     @Override
+    public List<Waiter> getList(List<Integer> id_list) {
+        return null;
+    }
+
+    @Override
     public Optional<Waiter> getById(Integer integer) {
         return repository.findById(integer);
     }
