@@ -36,7 +36,7 @@ public class ProductControllerUser {
         List<Product> data = dao.getList();
         model.addAttribute("products", data);
 
-        return "/user/product/list.html";
+        return "views/user/product/list.html";
     }
 
     @PostMapping("/add/")

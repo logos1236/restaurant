@@ -50,7 +50,7 @@ public class Error implements ErrorController {
         }
         model.addAttribute("errorMsg", errorMsg);*/
 
-        return "/service/error.html";
+        return "views/service/error.html";
     }
 
     @Override

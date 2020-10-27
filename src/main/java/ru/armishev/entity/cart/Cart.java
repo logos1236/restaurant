@@ -1,6 +1,5 @@
 package ru.armishev.entity.cart;
 
-import com.sun.tools.javac.util.List;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;

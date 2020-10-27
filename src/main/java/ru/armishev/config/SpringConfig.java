@@ -13,6 +13,11 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
+public class SpringConfig {
+
+}
+
+/*
 @Configuration
 @EnableWebMvc
 @ComponentScan("ru.armishev")
@@ -53,4 +58,4 @@ public class SpringConfig implements WebMvcConfigurer {
         resolver.setTemplateEngine(templateEngine());
         registry.viewResolver(resolver);
     }
-}
+}*/

@@ -20,6 +20,6 @@ public class ProductControllerAdmin {
         List<Product> data = dao.getList();
         model.addAttribute("products", data);
 
-        return "/admin/product/list.html";
+        return "views/admin/product/list.html";
     }
 }
