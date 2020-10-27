@@ -123,6 +123,14 @@ public class CartDAOUser implements CartRepositoryUser {
             this.quantity = quantity;
         }
 
+        public Product getProduct() {
+            return product;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
         public long getCost() {
             return product.getCost()*quantity;
         }

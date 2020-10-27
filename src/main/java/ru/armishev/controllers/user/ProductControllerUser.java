@@ -32,8 +32,6 @@ public class ProductControllerUser {
         model.addAttribute("products", dao_product.getList());
         model.addAttribute("cart", dao_cart);
 
-        System.out.println(dao_cart.toString());
-
         return "views/user/product/list.html";
     }
 }

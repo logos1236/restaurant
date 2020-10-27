@@ -27,8 +27,7 @@
 </head>
 <body>
 
-<div id="cart" th:fragment="cart">
-    В вашей корзине пусто
+<div id="cart" th:fragment="cart" th:utext="${cart.toString()}">
 </div>
 
 
