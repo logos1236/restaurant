@@ -154,14 +154,8 @@
 //=== Update cart after change product quantity
     function updateCartView(data_json) {
         try {
-            if (typeof data_json.html.cart != 'undefined') {
-                $.each(data_json.html.cart, function(key, value) {
-                    $("#"+key).replaceWith(value);
-                });
-            }
-
-            if (typeof data_json.is_empty_cart !== 'undefined') {
-                cartAdditionalListProduct(data_json.is_empty_cart);
+            if (typeof data_json != 'undefined') {
+                $("#cart").html(data_json.cart);
             }
         } catch (e) {
             console.log("Error update cart in function cartAdditionalListProduct");

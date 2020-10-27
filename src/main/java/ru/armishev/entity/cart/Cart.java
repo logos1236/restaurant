@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Cart implements ICart {
     private ArrayList<CartProduct> products = new ArrayList();
     private Table table;
+    private long cost;
 
     public Table getTable() {
         return table;
@@ -21,6 +22,18 @@ public class Cart implements ICart {
 
     public void setTable(Table table) {
         this.table = table;
+    }
+
+    public long getCost() {
+        return cost;
+    }
+
+    public void setCost(long cost) {
+        this.cost = cost;
+    }
+
+    public void calculateCost() {
+
     }
 
     @Override
@@ -51,14 +64,14 @@ public class Cart implements ICart {
     }
 
     @Override
-    public Cart.CartProduct getProduct(Integer product_id) throws Exception {
+    public Cart.CartProduct getProduct(Integer product_id) {
         for(CartProduct product: products) {
             if (product.id == product_id) {
                 return product;
             }
         }
 
-        throw new Exception("Can't find element");
+        return null;
     }
 
     public static class CartProduct {

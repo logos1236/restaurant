@@ -34,7 +34,11 @@ public class ProductControllerUser {
     @GetMapping("/")
     public String index(Model model) {
         List<Product> data = dao.getList();
+
         model.addAttribute("products", data);
+        model.addAttribute("cart", cart);
+
+        System.out.println(cart.toString());
 
         return "views/user/product/list.html";
     }
@@ -42,21 +46,23 @@ public class ProductControllerUser {
     @PostMapping("/add/")
     @ResponseBody
     public String add(HttpServletRequest request, Model model) {
-        //List<Product> data = dao.getList();
-        //model.addAttribute("products", data);
-
+        // Set product in cart
         String jsonArray = request.getParameter("product");
 
         Type listType = new TypeToken<List<Cart.CartProduct>>(){}.getType();
-        List<Cart.CartProduct> result = new Gson().fromJson(jsonArray, listType);
+        List<Cart.CartProduct> product_to_add = new Gson().fromJson(jsonArray, listType);
 
-        if (!result.isEmpty()) {
-            for(Cart.CartProduct product: result) {
-                System.out.println(result);
+        if (!product_to_add.isEmpty()) {
+            for(Cart.CartProduct product: product_to_add) {
+                System.out.println(product_to_add);
                 cart.setProduct(product);
             }
         }
 
-        return cart.toString();
+        // Send html of cart
+        Map<String, String> result = new HashMap<>();
+        result.put("cart", cart.toString());
+
+        return new Gson().toJson(result);
     }
 }
