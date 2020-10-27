@@ -1,16 +1,14 @@
 package ru.armishev.dao.user;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
-import ru.armishev.dao.rest.ProductDAO;
 import ru.armishev.entity.product.Product;
+import ru.armishev.helper.Helper;
 
-import java.lang.reflect.Type;
 import java.util.*;
 
 @Component
@@ -20,30 +18,22 @@ public class CartDAOUser implements CartRepositoryUser {
     private ProductDAOUser product_dao;
 
     private List<CartProduct> products = new ArrayList();
-    private long cost;
 
     public long getCost() {
-        return cost;
-    }
+        long result = 0;
 
-    public void setCost(long cost) {
-        this.cost = cost;
-    }
+        if (!products.isEmpty()) {
+            for(CartProduct cartProduct:products) {
+                result += cartProduct.getCost();
+            }
+        }
 
-    public void calculateCost() {
-
+        return result;
     }
 
     @Override
     public List<CartProduct> getProducts() {
         return products;
-    }
-
-    @Override
-    public String toString() {
-        return "Cart{" +
-                "products=" + products +
-                '}';
     }
 
     @Override
@@ -101,6 +91,29 @@ public class CartDAOUser implements CartRepositoryUser {
         return null;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+
+        if (!products.isEmpty()) {
+            result.append("<div class='product_list'>");
+            for(CartProduct cartProduct:products) {
+                result.append("<div class='product'>")
+                        .append("<div>").append(cartProduct.product.getName()).append("</div>")
+                        .append("<div>").append(cartProduct.quantity).append("</div>")
+                        .append("<div>").append(Helper.getPriceFormated(cartProduct.product.getCost())).append("</div>")
+                        .append("</div>");
+            }
+            result.append("</div>");
+
+            result.append("<div class='cart_cost'>Цена корзины ").append(Helper.getPriceFormated(this.getCost())).append("</div>");
+        } else {
+            result.append("Пустая корзина");
+        }
+
+        return result.toString();
+    }
+
     public static class CartProduct {
         private Product product;
         private int quantity;
@@ -108,6 +121,10 @@ public class CartDAOUser implements CartRepositoryUser {
         public CartProduct(Product product, int quantity) {
             this.product = product;
             this.quantity = quantity;
+        }
+
+        public long getCost() {
+            return product.getCost()*quantity;
         }
 
         @Override

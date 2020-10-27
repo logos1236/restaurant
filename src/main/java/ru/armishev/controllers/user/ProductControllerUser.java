@@ -36,18 +36,4 @@ public class ProductControllerUser {
 
         return "views/user/product/list.html";
     }
-
-    @PostMapping("/add/")
-    @ResponseBody
-    public String add(HttpServletRequest request, Model model) {
-        // Set product in cart
-        String jsonProducts = request.getParameter("product");
-        List<CartDAOUser.CartProduct> cart = dao_cart.setProducts(jsonProducts);
-
-        // Send html of cart
-        JsonObject result =  new JsonObject();
-        result.addProperty("cart", cart.toString());
-
-        return result.toString();
-    }
 }

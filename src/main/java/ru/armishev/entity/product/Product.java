@@ -4,7 +4,9 @@ import org.hibernate.annotations.GenericGenerator;
 import ru.armishev.entity.ingredient.Ingredient;
 
 import javax.persistence.*;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 @Entity
@@ -78,6 +80,7 @@ public class Product implements IProduct {
     public void setExecuteTime(long execute_time) {
         this.execute_time = execute_time;
     }
+
 
     @Override
     public long getCost() {

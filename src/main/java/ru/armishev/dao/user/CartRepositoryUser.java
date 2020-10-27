@@ -8,4 +8,6 @@ public interface CartRepositoryUser {
     List<CartDAOUser.CartProduct> setProducts(String jsonProducts);
 
     CartDAOUser.CartProduct getProduct(int product_id) throws Exception;
+
+    long getCost();
 }

@@ -11,7 +11,7 @@
             <p th:text="${elem.getName()}"></p>
 
             <? //=== Форма для связи товара с корзиной ?>
-            <form autocomplete="off" action="/user/product/add/" class="service_product_info_form">
+            <form autocomplete="off" action="/user/cart/add/" class="service_product_info_form">
                 <input type="hidden" name="id" th:value="${elem.getId()}" autocomplete="off">
                 <label>
                     <span>Количество товара:</span>
