@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.armishev.dao.user.CartDAOUser;
 import ru.armishev.dao.user.ProductDAOUser;
 import ru.armishev.entity.product.Product;
+import ru.armishev.views.user.CartViewUser;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -31,6 +32,7 @@ public class ProductControllerUser {
     public String index(Model model) {
         model.addAttribute("products", dao_product.getList());
         model.addAttribute("cart", dao_cart);
+        model.addAttribute("cartHtml", CartViewUser.htmlCart(dao_cart));
 
         return "views/user/product/list.html";
     }
