@@ -265,10 +265,10 @@ jQuery(document).ready(function () {
                         if (data_json.redirect_url) {
                             window.location = data_json.redirect_url;
                         }
-                        
-                        toastrPrintList(data_json.success_list, 'success');
+
+                        toastr.success(data_json.success_message);
                     } else {
-                        toastrPrintList(data_json.error, 'error');
+                        toastr.success(data_json.error_message);
                     }
                 }
             },

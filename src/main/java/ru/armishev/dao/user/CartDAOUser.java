@@ -7,7 +7,6 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import ru.armishev.entity.product.Product;
-import ru.armishev.helper.Helper;
 
 import java.util.*;
 
@@ -18,6 +17,20 @@ public class CartDAOUser implements CartRepositoryUser {
     private ProductDAOUser product_dao;
 
     private List<CartProduct> products = new ArrayList();
+
+    private boolean reserved_cart;
+
+    public boolean isReservedCart() {
+        return reserved_cart;
+    }
+
+    public void reserveCart() {
+        this.reserved_cart = true;
+    }
+
+    public void freeCart() {
+        this.reserved_cart = false;
+    }
 
     public long getCost() {
         long result = 0;
