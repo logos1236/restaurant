@@ -1,5 +1,6 @@
 package ru.armishev.dao;
 
+import com.google.gson.JsonObject;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -43,13 +44,14 @@ public class RestClient {
         return responseEntity.getBody();
     }
 
-    /*public void put(String uri, String json) {
+    public String put(String uri, String json) {
         HttpEntity<String> requestEntity = new HttpEntity<String>(json, headers);
-        ResponseEntity<String> responseEntity = rest.exchange(server + uri, HttpMethod.PUT, requestEntity, null);
+        ResponseEntity<String> responseEntity = rest.exchange(server + uri, HttpMethod.PUT, requestEntity, String.class);
         this.setStatus(responseEntity.getStatusCode());
+        return responseEntity.getBody();
     }
 
-    public void delete(String uri) {
+    /*public void delete(String uri) {
         HttpEntity<String> requestEntity = new HttpEntity<String>("", headers);
         ResponseEntity<String> responseEntity = rest.exchange(server + uri, HttpMethod.DELETE, requestEntity, null);
         this.setStatus(responseEntity.getStatusCode());

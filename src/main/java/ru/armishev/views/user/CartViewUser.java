@@ -29,4 +29,26 @@ public class CartViewUser {
 
         return result.toString();
     }
+
+    public static String htmlReservedCart(CartDAOUser cart) {
+        StringBuilder result = new StringBuilder();
+
+        if (!cart.getProducts().isEmpty()) {
+            result.append("<div class='product_list'>");
+            for(CartDAOUser.CartProduct cartProduct:cart.getProducts()) {
+                result.append("<div class='product'>")
+                        .append("<div>").append(cartProduct.getProduct().getName()).append("</div>")
+                        .append("<div>").append(cartProduct.getQuantity()).append("</div>")
+                        .append("<div>").append(Helper.getPriceFormated(cartProduct.getProduct().getCost())).append("</div>")
+                        .append("</div>");
+            }
+            result.append("</div>");
+
+            result.append("<div class='cart_cost'>Цена корзины: ").append(Helper.getPriceFormated(cart.getCost())).append("</div>");
+
+            result.append("<form class='service-order-create-form' action='/user/order/create/' method='POST'><button class='service-order-create-btn'>Создать заказ</button></form>");
+        }
+
+        return result.toString();
+    }
 }

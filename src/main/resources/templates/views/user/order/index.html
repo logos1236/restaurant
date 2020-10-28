@@ -3,7 +3,8 @@
 <head th:insert="views/template/index.html :: header">
 </head>
 <body>
-    Список заказов
+    <h2>Состав заказа</h2>
+    <div th:utext="${htmlReservedCart}"></div>
 
     <div th:insert="views/template/index.html :: footer">
     </div>

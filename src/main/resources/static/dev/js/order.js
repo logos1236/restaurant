@@ -1,50 +1,49 @@
 jQuery(document).ready(function () {
 //=== Create order
-    $("body").on("click", ".service-order_create", function () {
-        var form_data = new Object();
-        var _this_button = $(this);
-        var _this_preloader = $(this);
+    $("body").on("click", ".service-order-create-btn", function (event) {
+        event.stopPropagation();
 
-        form_data.is_email_push = $("#auth_checkbox_email:checked").length;
-        form_data.email = $("#order_email").val();
-
-        if (_this_button.hasClass("no_click")) {
-            return false;
-        }
-
-        $.ajax({
-            url: "/ajax/order_create.php",
-            method: 'post',
-            dataType: 'json',
-            data: form_data,
-            beforeSend: function () {
-                _this_button.addClass("no_click");
-                _this_preloader.addClass("loading");
-            },
-            success: function (response) {
-                if (typeof (response) != 'undefined' && response != null) {
-                    if (response.success > 0) {
-                        toastrPrintList(response.success_message, 'success');
-                    } else {
-                        toastrPrintList(response.error, 'error');
-                    }
-
-                    if (typeof (response.url_redirect) != 'undefined' && response.url_redirect != null) {
-                        window.location = response.url_redirect;
-                    }
-                }
-            },
-            error: function () {
-                toastr.error(window.toastr_error);
-            },
-            complete: function () {
-                _this_button.removeClass('no_click');
-                _this_preloader.removeClass('loading');
-            }
-        });
-
+        $(this).closest("form").submit();
         return false;
     });
+    $("body").on("submit", ".service-order-create-form", function () {
+            var _this_form = $(this);
+            var _this_loader = _this_form.find(".for-load");
+            var data_form = _this_form.serialize();
+
+            if (_this_loader.hasClass("loading")) {
+                return false;
+            }
+
+            $.ajax({
+                type: _this_form.attr("method"),
+                url: _this_form.attr("action"),
+                data: data_form,
+                beforeSend: function () {
+                    _this_loader.addClass("loading");
+                },
+                success: function (data_json) {
+                    if (typeof data_json !== 'undefined') {
+                        if (data_json.success == 1) {
+                            if (data_json.redirect_url) {
+                                window.location = data_json.redirect_url;
+                            }
+
+                            toastr.success(data_json.success_message);
+                        } else {
+                            toastr.success(data_json.error_message);
+                        }
+                    }
+                },
+                error: function () {
+                    toastr.error(window.toastr_error);
+                },
+                complete: function () {
+                    _this_loader.removeClass("loading");
+                }
+            });
+            return false;
+        });
     
 //=== Filter order on user lk page
     /*$("body").on("change", ".service-order-filter", function(){          
