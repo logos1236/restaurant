@@ -20,7 +20,9 @@ public class CartViewUser {
             }
             result.append("</div>");
 
-            result.append("<div class='cart_cost'>Цена корзины ").append(Helper.getPriceFormated(cart.getCost())).append("</div>");
+            result.append("<div class='cart_cost'>Цена корзины: ").append(Helper.getPriceFormated(cart.getCost())).append("</div>");
+
+            result.append("<button class='order_create'>Оформить заказ</button>");
         } else {
             result.append("Пустая корзина");
         }

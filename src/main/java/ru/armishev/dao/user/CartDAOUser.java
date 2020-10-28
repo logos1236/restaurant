@@ -91,29 +91,6 @@ public class CartDAOUser implements CartRepositoryUser {
         return null;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-
-        if (!products.isEmpty()) {
-            result.append("<div class='product_list'>");
-            for(CartProduct cartProduct:products) {
-                result.append("<div class='product'>")
-                        .append("<div>").append(cartProduct.product.getName()).append("</div>")
-                        .append("<div>").append(cartProduct.quantity).append("</div>")
-                        .append("<div>").append(Helper.getPriceFormated(cartProduct.product.getCost())).append("</div>")
-                        .append("</div>");
-            }
-            result.append("</div>");
-
-            result.append("<div class='cart_cost'>Цена корзины ").append(Helper.getPriceFormated(this.getCost())).append("</div>");
-        } else {
-            result.append("Пустая корзина");
-        }
-
-        return result.toString();
-    }
-
     public static class CartProduct {
         private Product product;
         private int quantity;

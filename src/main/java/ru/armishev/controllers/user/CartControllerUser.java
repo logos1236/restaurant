@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.armishev.dao.user.CartDAOUser;
+import ru.armishev.views.user.CartViewUser;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -27,7 +28,7 @@ public class CartControllerUser {
 
         // Send html of cart
         JsonObject result =  new JsonObject();
-        result.addProperty("cart", dao_cart.toString());
+        result.addProperty("cart", CartViewUser.htmlCart(dao_cart));
 
         return result.toString();
     }
